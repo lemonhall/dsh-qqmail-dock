@@ -1,0 +1,58 @@
+{
+  "name": "dsh-qqmail-dock",
+  "version": "0.1.0",
+  "description": "DSH 右侧栏的 QQ 邮箱：读最近邮件、看正文、发纯文本（发送需 confirm 门禁）。凭据只从私有 secret.json 读，授权码绝不进 git、不进日志、不回显。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "icon.svg"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek-harness",
+    "qqmail",
+    "imap",
+    "smtp",
+    "mail",
+    "sidebar"
+  ],
+  "author": "lemonhall",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemonhall/dsh-qqmail-dock.git"
+  },
+  "homepage": "https://github.com/lemonhall/dsh-qqmail-dock#readme",
+  "bugs": {
+    "url": "https://github.com/lemonhall/dsh-qqmail-dock/issues"
+  },
+  "meta": {
+    "title": "QQ 邮箱",
+    "description": "右侧栏一个 tab：读最近邮件、看正文、发纯文本；发送要二次确认，凭据只存在本地私有文件里。"
+  },
+  "icon": "./icon.svg",
+  "dependencies": {
+    "imapflow": "^1.0.164",
+    "nodemailer": "^6.9.16"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  }
+}

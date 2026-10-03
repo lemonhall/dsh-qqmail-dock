@@ -1,0 +1,38 @@
+# ============================================================================
+# dsh-qqmail-dock —— DSH bundle patch
+# ============================================================================
+# 参照 kotlinagentapp 的 PRD-0019（QQ 邮箱 CLI）：只做「读 + 发」最小闭环，
+# 不做 HTML/附件/富文本/移动删除标已读。
+#
+# 凭据**只从私有文件读**：$DSH_HOME/dsh-qqmail-dock/secret.json
+#   { "user": "你的QQ号@qq.com", "authCode": "QQ邮箱授权码" }
+# 授权码 ≠ QQ 密码，获取：QQ邮箱 → 设置 → 账户 → 开启 IMAP/SMTP 服务 → 生成授权码。
+# 这个文件**绝不进 git**，插件也**绝不把授权码写进日志或返回文本**（错误信息里会打码）。
+#
+# 宿主半（lib/index.js）：
+#   GET  /dsh-qqmail/state          是否已配置 + 最近的邮件摘要列表
+#   POST /dsh-qqmail/state          { action: fetch|read|send }（send 必须带 confirm: true）
+#   + qqmail_panel 工具（Agent 侧同款动作）
+# 客户端半（lib/client.js）是右侧栏 tab：邮件列表 + 正文 + 写邮件（带确认）。
+#
+# 安装：
+#   plugin_manager install_bundle  target=link:E:\development\dsh-qqmail-dock
+# ⚠️ 客户端半边改动要重启应用；新增宿主路由也要重启（实测）。
+# ============================================================================
+
+- insert:
+    - id: dsh-qqmail-dock
+      name: dsh-qqmail-dock
+      config:
+        imapHost: 'imap.qq.com'
+        imapPort: 993
+        smtpHost: 'smtp.qq.com'
+        smtpPort: 465
+        # 默认看哪个文件夹、一次取几封
+        folder: 'INBOX'
+        fetchCount: 20
+        # 正文预览截断长度（避免把整封长邮件灌进上下文）
+        previewChars: 1200
+        # 发送门禁：true = 每次发送都必须显式 confirm（仿 PRD-0019 的 ConfirmRequired）
+        requireConfirm: true
+        timeoutMs: 20000
