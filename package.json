@@ -1,6 +1,6 @@
 {
   "name": "dsh-qqmail-dock",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DSH 右侧栏的 QQ 邮箱：读最近邮件、看正文、发纯文本（发送需 confirm 门禁）。凭据只从私有 secret.json 读，授权码绝不进 git、不进日志、不回显。",
   "type": "module",
   "main": "lib/index.js",
